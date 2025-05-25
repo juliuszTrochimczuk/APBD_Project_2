@@ -8,10 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
-                          throw new InvalidOperationException("There is no default connection string");
-
-builder.Services.AddDbContext<MasterContext>(option => option.UseSqlServer(connectionString));
+builder.Services.AddDbContext<MasterContext>(option =>
+{
+    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+                              throw new InvalidOperationException("There is no default connection string");
+    option.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 
@@ -23,6 +25,48 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapGet("/api/devices", async (MasterContext context) =>
+{
+    try
+    {
+        
+    }
+    catch
+    {
+        
+    }
+});
+
+app.MapGet("/api/devices/{id}", async (MasterContext context, int id, CancellationToken token) =>
+{
+
+});
+
+app.MapPost("/api/devices", async (MasterContext context, CancellationToken token) =>
+{
+
+});
+
+app.MapPut("/api/devices/{id}", async (MasterContext context, int id, CancellationToken token) =>
+{
+
+});
+
+app.MapDelete("/api/devices/{id}", async (MasterContext context, int id, CancellationToken token) =>
+{
+
+});
+
+app.MapGet("/api/emplyees", async (MasterContext context, CancellationToken cancellationToken) =>
+{
+
+});
+
+app.MapGet("/api/employees/{id}", async (MasterContext context, CancellationToken token) =>
+{
+
+});
 
 
 app.Run();
