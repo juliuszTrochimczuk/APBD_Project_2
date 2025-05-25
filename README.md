@@ -1,8 +1,8 @@
 In configuration file there is mainly defined ConnectionString as a DefaultConnection.
 DefaultConnection needs to have:
--> Data Source (with sever localization with port)
--> User ID and password
--> Trust Server Certificate set to the True
+- Data Source (with sever localization with port)
+-  User ID and password
+-   Trust Server Certificate set to the True
 
 Solution is devided into three Projects:
 1. API - That's where all endpoints are descibed with all the implementation
