@@ -1,8 +1,12 @@
-using DTO;
+/*using DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Models;
+using Others;
 using System.Text.Json;
+using Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,30 @@ builder.Services.AddDbContext<MasterContext>(option =>
     option.UseSqlServer(connectionString);
 });
 
+var jwtConfigData = builder.Configuration.GetSection("Jwt");
+builder.Services.Configure<JwtOptions>(jwtConfigData);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtConfigData["Issuer"],
+        ValidAudience = jwtConfigData["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfigData["Key"])),
+        ClockSkew = TimeSpan.FromMinutes(10)
+    };
+});
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddAuthentication();
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +56,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseMiddleware<>();
+app.UseAuthorization();
+app.MapControllers();
 
 app.MapGet("/api/devices", async (MasterContext context, CancellationToken token) =>
 {
@@ -184,4 +216,4 @@ app.MapGet("/api/employees/{id}", async (int id, MasterContext context, Cancella
 });
 
 
-app.Run();
+app.Run();*/
