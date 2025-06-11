@@ -402,3 +402,5 @@ FodyWeavers.xsd
 
 #Settings files
 src/API/appsettings.json
+
+.idea/**
